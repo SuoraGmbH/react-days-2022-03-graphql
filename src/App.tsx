@@ -10,7 +10,7 @@ import useProjects from "./hooks/useProjects";
 
 function App() {
   const {timeEntries, logTime} = useTimeEntries();
-  const {projects, loading, error} = useProjects()
+  const {projects, loading} = useProjects()
 
   return (
     <div className="content">
@@ -21,7 +21,7 @@ function App() {
           logTime({...timeEntry, projectId: "workshop"});
         }}
       />
-      <ProjectList loading={loading} projects={projects} error={error} />
+      <ProjectList loading={loading} projects={projects} />
     </div>
   );
 }

@@ -1,9 +1,26 @@
-import { useState } from "react";
 import { gql } from "@apollo/client";
+import {
+  useAllTimeEntriesQuery, useLogTimeMutation
+} from "../generated/graphql";
 
 gql`
   query AllTimeEntries {
     timeEntries {
+      id
+      comment
+      start
+      end
+      project {
+        id
+        name
+      }
+    }
+  }
+`;
+
+gql`
+  mutation LogTime($comment: String!, $projectId: String!, $start: Date!, $end: Date!) {
+    addTimeEntry(comment: $comment, projectId: $projectId, start: $start, end: $end) {
       id
     }
   }
@@ -29,45 +46,22 @@ export interface NewTimeEntry {
 }
 
 const useTimeEntries = () => {
-  const [timeEntries, setTimeEntries] = useState<TimeEntry[]>([
-    {
-      id: "timeEntry-1",
-      comment: "Learning React",
-      start: new Date("2022-01-01T10:00:00"),
-      end: new Date("2022-01-01T11:00:00"),
-      project: {
-        name: "Workshop",
-      },
-    },
-    {
-      id: "timeEntry-2",
-      comment: "Learning Redux",
-      start: new Date("2022-01-01T11:00:00"),
-      end: new Date("2022-01-01T12:00:00"),
-      project: {
-        name: "Workshop",
-      },
-    },
-  ]);
+  const { data } = useAllTimeEntriesQuery();
+  const [logTimeMutation] = useLogTimeMutation({
+    refetchQueries: ["AllTimeEntries"],
+  });
 
   const logTime = (timeEntry: NewTimeEntry): void => {
-    setTimeEntries((previousTimeEntries) => [
-      ...previousTimeEntries,
-      {
-        id: Date.now().toString(),
-        comment: timeEntry.comment,
-        start: timeEntry.start,
-        end: timeEntry.end,
-        project: {
-          name: "Workshop",
-        },
+    logTimeMutation({
+      variables: {
+        ...timeEntry
       },
-    ]);
+    });
   };
 
   return {
-    timeEntries,
-    logTime: logTime,
+    timeEntries: data ? data.timeEntries : [],
+    logTime,
   };
 };
 

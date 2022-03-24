@@ -12,7 +12,7 @@ export const TimeEntryList: React.FunctionComponent<Props> = ({
   return (
     <div>
       {timeEntries.map((timeEntry) => (
-        <TimeEntryView timeEntry={timeEntry} />
+        <TimeEntryView key={timeEntry.id} timeEntry={timeEntry} />
       ))}
     </div>
   );

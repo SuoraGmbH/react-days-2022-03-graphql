@@ -61,8 +61,7 @@ export type QueryProjectArgs = {
 
 
 export type QuerySearchProjectsArgs = {
-  firstName?: InputMaybe<Scalars['String']>;
-  lastName?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type TimeEntry = {

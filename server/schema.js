@@ -10,7 +10,7 @@ const typeDefs = gql`
     end: Date!
     project: Project!
   }
-  
+
   type Project {
     id: ID!
     name: String!
@@ -29,7 +29,7 @@ const typeDefs = gql`
     timeEntries: [TimeEntry!]!
     project(id: ID!): Project
     projects: [Project!]!
-    searchProjects(firstName: String, lastName: String): [Project!]!
+    searchProjects(name: String): [Project!]!
   }
 
   type Mutation {

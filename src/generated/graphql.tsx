@@ -79,6 +79,16 @@ export type AllTimeEntriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AllTimeEntriesQuery = { __typename?: 'Query', timeEntries: Array<{ __typename?: 'TimeEntry', id: string, comment: string, start: any, end: any, project: { __typename?: 'Project', name: string } }> };
 
+export type LogTimeMutationVariables = Exact<{
+  comment: Scalars['String'];
+  projectId: Scalars['String'];
+  start: Scalars['Date'];
+  end: Scalars['Date'];
+}>;
+
+
+export type LogTimeMutation = { __typename?: 'Mutation', addTimeEntry: { __typename?: 'TimeEntry', id: string } };
+
 
 export const AllTimeEntriesDocument = gql`
     query AllTimeEntries {
@@ -120,3 +130,39 @@ export function useAllTimeEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type AllTimeEntriesQueryHookResult = ReturnType<typeof useAllTimeEntriesQuery>;
 export type AllTimeEntriesLazyQueryHookResult = ReturnType<typeof useAllTimeEntriesLazyQuery>;
 export type AllTimeEntriesQueryResult = Apollo.QueryResult<AllTimeEntriesQuery, AllTimeEntriesQueryVariables>;
+export const LogTimeDocument = gql`
+    mutation LogTime($comment: String!, $projectId: String!, $start: Date!, $end: Date!) {
+  addTimeEntry(comment: $comment, projectId: $projectId, start: $start, end: $end) {
+    id
+  }
+}
+    `;
+export type LogTimeMutationFn = Apollo.MutationFunction<LogTimeMutation, LogTimeMutationVariables>;
+
+/**
+ * __useLogTimeMutation__
+ *
+ * To run a mutation, you first call `useLogTimeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogTimeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logTimeMutation, { data, loading, error }] = useLogTimeMutation({
+ *   variables: {
+ *      comment: // value for 'comment'
+ *      projectId: // value for 'projectId'
+ *      start: // value for 'start'
+ *      end: // value for 'end'
+ *   },
+ * });
+ */
+export function useLogTimeMutation(baseOptions?: Apollo.MutationHookOptions<LogTimeMutation, LogTimeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogTimeMutation, LogTimeMutationVariables>(LogTimeDocument, options);
+      }
+export type LogTimeMutationHookResult = ReturnType<typeof useLogTimeMutation>;
+export type LogTimeMutationResult = Apollo.MutationResult<LogTimeMutation>;
+export type LogTimeMutationOptions = Apollo.BaseMutationOptions<LogTimeMutation, LogTimeMutationVariables>;

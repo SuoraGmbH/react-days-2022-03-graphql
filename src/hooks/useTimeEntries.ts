@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { gql } from "@apollo/client";
-import { useAllTimeEntriesQuery } from "../generated/graphql";
+import { useAllTimeEntriesQuery, useLogTimeMutation } from "../generated/graphql";
 
 gql`
   query AllTimeEntries {
@@ -15,6 +15,15 @@ gql`
     }
   }
 `;
+
+gql`
+  mutation LogTime($comment: String!, $projectId: String!, $start: Date!, $end: Date!) {
+    addTimeEntry(comment: $comment, projectId: $projectId, start: $start, end: $end) {
+      id
+    }
+  }
+`;
+
 
 interface Project {
   name: string;
@@ -36,46 +45,27 @@ export interface NewTimeEntry {
 }
 
 const useTimeEntries = () => {
-  const { data, error } = useAllTimeEntriesQuery();
+  const { data, error, refetch } = useAllTimeEntriesQuery();
+  const [logTimeMutation, { error: mutationError }] = useLogTimeMutation();
 
   if (error) {
     throw error;
   }
-
-  const [timeEntriesFromState, setTimeEntries] = useState<TimeEntry[]>([
-    {
-      id: "timeEntry-1",
-      comment: "Learning React State",
-      start: new Date("2022-01-01T10:00:00"),
-      end: new Date("2022-01-01T11:00:00"),
-      project: {
-        name: "Workshop",
-      },
-    },
-    {
-      id: "timeEntry-2",
-      comment: "Learning Redux State",
-      start: new Date("2022-01-01T11:00:00"),
-      end: new Date("2022-01-01T12:00:00"),
-      project: {
-        name: "Workshop",
-      },
-    },
-  ]);
+  if (mutationError) {
+    throw mutationError;
+  }
 
   const logTime = (timeEntry: NewTimeEntry): void => {
-    setTimeEntries((previousTimeEntries) => [
-      ...previousTimeEntries,
-      {
-        id: Date.now().toString(),
+    logTimeMutation({
+      variables: {
+        projectId: timeEntry.projectId,
         comment: timeEntry.comment,
-        start: timeEntry.start,
-        end: timeEntry.end,
-        project: {
-          name: "Workshop",
-        },
-      },
-    ]);
+        start: timeEntry.start.toISOString(),
+        end: timeEntry.end.toISOString(),
+      }
+    }).then(() => {
+      refetch()
+    })
   };
 
   const timeEntriesFromGraphql = data?.timeEntries ?? [];
@@ -83,7 +73,7 @@ const useTimeEntries = () => {
     ...timeEntry,
     start: new Date(timeEntry.start),
     end: new Date(timeEntry.end),
-  }))
+  }));
 
   return {
     timeEntries: timeEntries,

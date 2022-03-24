@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { gql } from "@apollo/client";
+import { useAllTimeEntriesQuery } from "../generated/graphql";
 
 gql`
   query AllTimeEntries {
     timeEntries {
       id
+      comment
+      start
+      end
+      project {
+        name
+      }
     }
   }
 `;
@@ -29,10 +36,16 @@ export interface NewTimeEntry {
 }
 
 const useTimeEntries = () => {
-  const [timeEntries, setTimeEntries] = useState<TimeEntry[]>([
+  const { data, error } = useAllTimeEntriesQuery();
+
+  if (error) {
+    throw error;
+  }
+
+  const [timeEntriesFromState, setTimeEntries] = useState<TimeEntry[]>([
     {
       id: "timeEntry-1",
-      comment: "Learning React",
+      comment: "Learning React State",
       start: new Date("2022-01-01T10:00:00"),
       end: new Date("2022-01-01T11:00:00"),
       project: {
@@ -41,7 +54,7 @@ const useTimeEntries = () => {
     },
     {
       id: "timeEntry-2",
-      comment: "Learning Redux",
+      comment: "Learning Redux State",
       start: new Date("2022-01-01T11:00:00"),
       end: new Date("2022-01-01T12:00:00"),
       project: {
@@ -65,8 +78,15 @@ const useTimeEntries = () => {
     ]);
   };
 
+  const timeEntriesFromGraphql = data?.timeEntries ?? [];
+  const timeEntries = timeEntriesFromGraphql.map((timeEntry): TimeEntry => ({
+    ...timeEntry,
+    start: new Date(timeEntry.start),
+    end: new Date(timeEntry.end),
+  }))
+
   return {
-    timeEntries,
+    timeEntries: timeEntries,
     logTime: logTime,
   };
 };

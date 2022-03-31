@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { gql } from "@apollo/client";
+import {useAllTimeEntriesQuery} from "../generated/graphql";
 
 gql`
   query AllTimeEntries {
@@ -29,6 +30,7 @@ export interface NewTimeEntry {
 }
 
 const useTimeEntries = () => {
+  const { data } = useAllTimeEntriesQuery();
   const [timeEntries, setTimeEntries] = useState<TimeEntry[]>([
     {
       id: "timeEntry-1",
@@ -66,7 +68,7 @@ const useTimeEntries = () => {
   };
 
   return {
-    timeEntries,
+    timeEntries: data?.timeEntries,
     logTime: logTime,
   };
 };

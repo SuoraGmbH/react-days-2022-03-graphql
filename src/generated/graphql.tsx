@@ -52,6 +52,7 @@ export type Query = {
   projects: Array<Project>;
   searchProjects: Array<Project>;
   timeEntries: Array<TimeEntry>;
+  timeEntry?: Maybe<TimeEntry>;
 };
 
 
@@ -62,6 +63,11 @@ export type QueryProjectArgs = {
 
 export type QuerySearchProjectsArgs = {
   name?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryTimeEntryArgs = {
+  id: Scalars['ID'];
 };
 
 export type TimeEntry = {
@@ -87,6 +93,13 @@ export type LogTimeMutationVariables = Exact<{
 
 
 export type LogTimeMutation = { __typename?: 'Mutation', addTimeEntry: { __typename?: 'TimeEntry', id: string } };
+
+export type TimeEntryQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type TimeEntryQuery = { __typename?: 'Query', timeEntry?: { __typename?: 'TimeEntry', id: string, start: any, end: any } | null };
 
 
 export const AllTimeEntriesDocument = gql`
@@ -165,3 +178,40 @@ export function useLogTimeMutation(baseOptions?: Apollo.MutationHookOptions<LogT
 export type LogTimeMutationHookResult = ReturnType<typeof useLogTimeMutation>;
 export type LogTimeMutationResult = Apollo.MutationResult<LogTimeMutation>;
 export type LogTimeMutationOptions = Apollo.BaseMutationOptions<LogTimeMutation, LogTimeMutationVariables>;
+export const TimeEntryDocument = gql`
+    query TimeEntry($id: ID!) {
+  timeEntry(id: $id) {
+    id
+    start
+    end
+  }
+}
+    `;
+
+/**
+ * __useTimeEntryQuery__
+ *
+ * To run a query within a React component, call `useTimeEntryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTimeEntryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTimeEntryQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTimeEntryQuery(baseOptions: Apollo.QueryHookOptions<TimeEntryQuery, TimeEntryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TimeEntryQuery, TimeEntryQueryVariables>(TimeEntryDocument, options);
+      }
+export function useTimeEntryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TimeEntryQuery, TimeEntryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TimeEntryQuery, TimeEntryQueryVariables>(TimeEntryDocument, options);
+        }
+export type TimeEntryQueryHookResult = ReturnType<typeof useTimeEntryQuery>;
+export type TimeEntryLazyQueryHookResult = ReturnType<typeof useTimeEntryLazyQuery>;
+export type TimeEntryQueryResult = Apollo.QueryResult<TimeEntryQuery, TimeEntryQueryVariables>;

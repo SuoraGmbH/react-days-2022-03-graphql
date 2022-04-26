@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { gql } from "@apollo/client";
-import { useAllTimeEntriesQuery, useLogTimeMutation } from "../generated/graphql";
+import {
+  useAllTimeEntriesQuery,
+  useLogTimeMutation,
+} from "../generated/graphql";
 
 gql`
   query AllTimeEntries {
@@ -17,13 +20,22 @@ gql`
 `;
 
 gql`
-  mutation LogTime($comment: String!, $projectId: String!, $start: Date!, $end: Date!) {
-    addTimeEntry(comment: $comment, projectId: $projectId, start: $start, end: $end) {
+  mutation LogTime(
+    $comment: String!
+    $projectId: String!
+    $start: Date!
+    $end: Date!
+  ) {
+    addTimeEntry(
+      comment: $comment
+      projectId: $projectId
+      start: $start
+      end: $end
+    ) {
       id
     }
   }
 `;
-
 
 interface Project {
   name: string;
@@ -62,18 +74,20 @@ const useTimeEntries = () => {
         comment: timeEntry.comment,
         start: timeEntry.start.toISOString(),
         end: timeEntry.end.toISOString(),
-      }
+      },
     }).then(() => {
-      refetch()
-    })
+      refetch();
+    });
   };
 
   const timeEntriesFromGraphql = data?.timeEntries ?? [];
-  const timeEntries = timeEntriesFromGraphql.map((timeEntry): TimeEntry => ({
-    ...timeEntry,
-    start: new Date(timeEntry.start),
-    end: new Date(timeEntry.end),
-  }));
+  const timeEntries = timeEntriesFromGraphql.map(
+    (timeEntry): TimeEntry => ({
+      ...timeEntry,
+      start: new Date(timeEntry.start),
+      end: new Date(timeEntry.end),
+    })
+  );
 
   return {
     timeEntries: timeEntries,

@@ -34,7 +34,12 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addTimeEntry(comment: String!, projectId: String!, start: Date!, end: Date!): TimeEntry!
+    addTimeEntry(
+      comment: String!
+      projectId: String!
+      start: Date!
+      end: Date!
+    ): TimeEntry!
   }
 `;
 

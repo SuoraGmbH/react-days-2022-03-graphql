@@ -30,22 +30,22 @@ const createStore = async () => {
   await db.sync({ force: true });
 
   const workshop = await projects.create({
-    "id": "workshop",
-    "name": "Workshop",
-  })
-
-  await timeEntries.create({
-    "projectId": workshop.id,
-    "start": "2022-01-10T10:00:00.000Z",
-    "end": "2022-01-10T12:00:00.000Z",
-    "comment": "Learn React"
+    id: "workshop",
+    name: "Workshop",
   });
 
   await timeEntries.create({
-    "projectId": workshop.id,
-    "start": "2022-01-11T16:00:00.000Z",
-    "end": "2022-01-11T18:00:00.000Z",
-    "comment": "Learn Redux"
+    projectId: workshop.id,
+    start: "2022-01-10T10:00:00.000Z",
+    end: "2022-01-10T12:00:00.000Z",
+    comment: "Learn React",
+  });
+
+  await timeEntries.create({
+    projectId: workshop.id,
+    start: "2022-01-11T16:00:00.000Z",
+    end: "2022-01-11T18:00:00.000Z",
+    comment: "Learn Redux",
   });
 
   return { db, timeEntries, projects };

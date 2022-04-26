@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import {useTimeEntryQuery} from "../generated/graphql";
+import { useTimeEntryQuery } from "../generated/graphql";
 
 gql`
   query TimeEntry($id: ID!) {
@@ -11,9 +11,11 @@ gql`
   }
 `;
 
-
-const useTimeEntry = ({id}: {id: string | undefined}) => {
-  const { data } = useTimeEntryQuery({variables: {id: id?? ''}, skip: !id});
+const useTimeEntry = ({ id }: { id: string | undefined }) => {
+  const { data } = useTimeEntryQuery({
+    variables: { id: id ?? "" },
+    skip: !id,
+  });
 
   return {
     timeEntry: data?.timeEntry,

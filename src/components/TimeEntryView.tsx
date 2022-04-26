@@ -11,7 +11,9 @@ export const TimeEntryView: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <div key={timeEntry.id}>
-      <h3>{`${timeEntry.comment} (${dayjs(timeEntry.start).format('lll')} - ${dayjs(timeEntry.end).format('lll')})`}</h3>
+      <h3>{`${timeEntry.comment} (${dayjs(timeEntry.start).format(
+        "lll"
+      )} - ${dayjs(timeEntry.end).format("lll")})`}</h3>
     </div>
   );
 };

@@ -12,13 +12,13 @@ class ProjectApi {
   }
 
   async searchProjects({ name }) {
-    let where = {}
+    let where = {};
     if (name) {
-      where.name = name
+      where.name = name;
     }
 
     return await this.store.projects.findAll({
-      where
+      where,
     });
   }
 }

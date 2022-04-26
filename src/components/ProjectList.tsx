@@ -1,6 +1,6 @@
 import React from "react";
 import ProjectView from "./ProjectView";
-import {Project} from "../hooks/useProjects";
+import { Project } from "../hooks/useProjects";
 
 interface Props {
   loading: boolean;
@@ -8,7 +8,11 @@ interface Props {
   projects: readonly Project[];
 }
 
-const ProjectList: React.FunctionComponent<Props> = ({ loading, error, projects }) => {
+const ProjectList: React.FunctionComponent<Props> = ({
+  loading,
+  error,
+  projects,
+}) => {
   if (loading) {
     return <span>Loading…</span>;
   }
@@ -19,9 +23,9 @@ const ProjectList: React.FunctionComponent<Props> = ({ loading, error, projects 
 
   return (
     <div role="list">
-      {projects.map((project) =>
-        <ProjectView key={project.id} project={project} />,
-      )}
+      {projects.map((project) => (
+        <ProjectView key={project.id} project={project} />
+      ))}
     </div>
   );
 };

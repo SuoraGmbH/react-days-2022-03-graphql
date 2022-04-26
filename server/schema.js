@@ -26,6 +26,7 @@ const typeDefs = gql`
   }
 
   type Query {
+    timeEntry(id: ID!): TimeEntry
     timeEntries: [TimeEntry!]!
     project(id: ID!): Project
     projects: [Project!]!

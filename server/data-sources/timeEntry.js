@@ -7,6 +7,10 @@ class TimeEntryApi {
     return await this.store.timeEntries.findAll();
   }
 
+  async getTimeEntry(timeEntryId) {
+    return await this.store.timeEntries.findByPk(timeEntryId);
+  }
+
   async getAllByProjectId(projectId) {
     return await this.store.timeEntries.findAll({
       where: {

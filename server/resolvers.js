@@ -1,5 +1,8 @@
 const resolvers = {
   Query: {
+    timeEntry: async (node, args, {dataSources}) => {
+      return await dataSources.timeEntryApi.getTimeEntry(args.id);
+    },
     timeEntries: async (node, _, {dataSources}) => {
       return await dataSources.timeEntryApi.getAllTimeEntries();
     },

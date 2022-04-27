@@ -7,6 +7,10 @@ gql`
       id
       start
       end
+      project {
+        id
+        name
+      }
     }
   }
 `;

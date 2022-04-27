@@ -1,16 +1,10 @@
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -23,36 +17,37 @@ export type Scalars = {
 };
 
 export type Mutation = {
-  __typename?: "Mutation";
+  __typename?: 'Mutation';
   addTimeEntry: TimeEntry;
 };
 
+
 export type MutationAddTimeEntryArgs = {
-  comment: Scalars["String"];
-  end: Scalars["Date"];
-  projectId: Scalars["String"];
-  start: Scalars["Date"];
+  comment: Scalars['String'];
+  end: Scalars['Date'];
+  projectId: Scalars['String'];
+  start: Scalars['Date'];
 };
 
 export type Project = {
-  __typename?: "Project";
-  id: Scalars["ID"];
-  name: Scalars["String"];
+  __typename?: 'Project';
+  id: Scalars['ID'];
+  name: Scalars['String'];
   timeEntriesConnection?: Maybe<ProjectTimeEntriesConnection>;
 };
 
 export type ProjectTimeEntriesConnection = {
-  __typename?: "ProjectTimeEntriesConnection";
+  __typename?: 'ProjectTimeEntriesConnection';
   edges: Array<ProjectTimeEntriesEdge>;
 };
 
 export type ProjectTimeEntriesEdge = {
-  __typename?: "ProjectTimeEntriesEdge";
+  __typename?: 'ProjectTimeEntriesEdge';
   node: TimeEntry;
 };
 
 export type Query = {
-  __typename?: "Query";
+  __typename?: 'Query';
   project?: Maybe<Project>;
   projects: Array<Project>;
   searchProjects: Array<Project>;
@@ -60,80 +55,66 @@ export type Query = {
   timeEntry?: Maybe<TimeEntry>;
 };
 
+
 export type QueryProjectArgs = {
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 };
+
 
 export type QuerySearchProjectsArgs = {
-  name?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryTimeEntryArgs = {
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 };
 
 export type TimeEntry = {
-  __typename?: "TimeEntry";
-  comment: Scalars["String"];
-  end: Scalars["Date"];
-  id: Scalars["ID"];
+  __typename?: 'TimeEntry';
+  comment: Scalars['String'];
+  end: Scalars['Date'];
+  id: Scalars['ID'];
   project: Project;
-  start: Scalars["Date"];
+  start: Scalars['Date'];
 };
 
-export type AllTimeEntriesQueryVariables = Exact<{ [key: string]: never }>;
+export type AllTimeEntriesQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type AllTimeEntriesQuery = {
-  __typename?: "Query";
-  timeEntries: Array<{
-    __typename?: "TimeEntry";
-    id: string;
-    comment: string;
-    start: any;
-    end: any;
-    project: { __typename?: "Project"; name: string };
-  }>;
-};
+
+export type AllTimeEntriesQuery = { __typename?: 'Query', timeEntries: Array<{ __typename?: 'TimeEntry', id: string, comment: string, start: any, end: any, project: { __typename?: 'Project', name: string } }> };
 
 export type LogTimeMutationVariables = Exact<{
-  comment: Scalars["String"];
-  projectId: Scalars["String"];
-  start: Scalars["Date"];
-  end: Scalars["Date"];
+  comment: Scalars['String'];
+  projectId: Scalars['String'];
+  start: Scalars['Date'];
+  end: Scalars['Date'];
 }>;
 
-export type LogTimeMutation = {
-  __typename?: "Mutation";
-  addTimeEntry: { __typename?: "TimeEntry"; id: string };
-};
+
+export type LogTimeMutation = { __typename?: 'Mutation', addTimeEntry: { __typename?: 'TimeEntry', id: string } };
 
 export type TimeEntryQueryVariables = Exact<{
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 }>;
 
-export type TimeEntryQuery = {
-  __typename?: "Query";
-  timeEntry?: {
-    __typename?: "TimeEntry";
-    id: string;
-    start: any;
-    end: any;
-  } | null;
-};
+
+export type TimeEntryQuery = { __typename?: 'Query', timeEntry?: { __typename?: 'TimeEntry', id: string, start: any, end: any, project: { __typename?: 'Project', id: string, name: string } } | null };
+
 
 export const AllTimeEntriesDocument = gql`
-  query AllTimeEntries {
-    timeEntries {
-      id
-      comment
-      start
-      end
-      project {
-        name
-      }
+    query AllTimeEntries {
+  timeEntries {
+    id
+    comment
+    start
+    end
+    project {
+      name
     }
   }
-`;
+}
+    `;
 
 /**
  * __useAllTimeEntriesQuery__
@@ -150,61 +131,25 @@ export const AllTimeEntriesDocument = gql`
  *   },
  * });
  */
-export function useAllTimeEntriesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    AllTimeEntriesQuery,
-    AllTimeEntriesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<AllTimeEntriesQuery, AllTimeEntriesQueryVariables>(
-    AllTimeEntriesDocument,
-    options
-  );
-}
-export function useAllTimeEntriesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    AllTimeEntriesQuery,
-    AllTimeEntriesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<AllTimeEntriesQuery, AllTimeEntriesQueryVariables>(
-    AllTimeEntriesDocument,
-    options
-  );
-}
-export type AllTimeEntriesQueryHookResult = ReturnType<
-  typeof useAllTimeEntriesQuery
->;
-export type AllTimeEntriesLazyQueryHookResult = ReturnType<
-  typeof useAllTimeEntriesLazyQuery
->;
-export type AllTimeEntriesQueryResult = Apollo.QueryResult<
-  AllTimeEntriesQuery,
-  AllTimeEntriesQueryVariables
->;
+export function useAllTimeEntriesQuery(baseOptions?: Apollo.QueryHookOptions<AllTimeEntriesQuery, AllTimeEntriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllTimeEntriesQuery, AllTimeEntriesQueryVariables>(AllTimeEntriesDocument, options);
+      }
+export function useAllTimeEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllTimeEntriesQuery, AllTimeEntriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllTimeEntriesQuery, AllTimeEntriesQueryVariables>(AllTimeEntriesDocument, options);
+        }
+export type AllTimeEntriesQueryHookResult = ReturnType<typeof useAllTimeEntriesQuery>;
+export type AllTimeEntriesLazyQueryHookResult = ReturnType<typeof useAllTimeEntriesLazyQuery>;
+export type AllTimeEntriesQueryResult = Apollo.QueryResult<AllTimeEntriesQuery, AllTimeEntriesQueryVariables>;
 export const LogTimeDocument = gql`
-  mutation LogTime(
-    $comment: String!
-    $projectId: String!
-    $start: Date!
-    $end: Date!
-  ) {
-    addTimeEntry(
-      comment: $comment
-      projectId: $projectId
-      start: $start
-      end: $end
-    ) {
-      id
-    }
+    mutation LogTime($comment: String!, $projectId: String!, $start: Date!, $end: Date!) {
+  addTimeEntry(comment: $comment, projectId: $projectId, start: $start, end: $end) {
+    id
   }
-`;
-export type LogTimeMutationFn = Apollo.MutationFunction<
-  LogTimeMutation,
-  LogTimeMutationVariables
->;
+}
+    `;
+export type LogTimeMutationFn = Apollo.MutationFunction<LogTimeMutation, LogTimeMutationVariables>;
 
 /**
  * __useLogTimeMutation__
@@ -226,33 +171,26 @@ export type LogTimeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useLogTimeMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LogTimeMutation,
-    LogTimeMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LogTimeMutation, LogTimeMutationVariables>(
-    LogTimeDocument,
-    options
-  );
-}
+export function useLogTimeMutation(baseOptions?: Apollo.MutationHookOptions<LogTimeMutation, LogTimeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogTimeMutation, LogTimeMutationVariables>(LogTimeDocument, options);
+      }
 export type LogTimeMutationHookResult = ReturnType<typeof useLogTimeMutation>;
 export type LogTimeMutationResult = Apollo.MutationResult<LogTimeMutation>;
-export type LogTimeMutationOptions = Apollo.BaseMutationOptions<
-  LogTimeMutation,
-  LogTimeMutationVariables
->;
+export type LogTimeMutationOptions = Apollo.BaseMutationOptions<LogTimeMutation, LogTimeMutationVariables>;
 export const TimeEntryDocument = gql`
-  query TimeEntry($id: ID!) {
-    timeEntry(id: $id) {
+    query TimeEntry($id: ID!) {
+  timeEntry(id: $id) {
+    id
+    start
+    end
+    project {
       id
-      start
-      end
+      name
     }
   }
-`;
+}
+    `;
 
 /**
  * __useTimeEntryQuery__
@@ -270,32 +208,14 @@ export const TimeEntryDocument = gql`
  *   },
  * });
  */
-export function useTimeEntryQuery(
-  baseOptions: Apollo.QueryHookOptions<TimeEntryQuery, TimeEntryQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<TimeEntryQuery, TimeEntryQueryVariables>(
-    TimeEntryDocument,
-    options
-  );
-}
-export function useTimeEntryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TimeEntryQuery,
-    TimeEntryQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<TimeEntryQuery, TimeEntryQueryVariables>(
-    TimeEntryDocument,
-    options
-  );
-}
+export function useTimeEntryQuery(baseOptions: Apollo.QueryHookOptions<TimeEntryQuery, TimeEntryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TimeEntryQuery, TimeEntryQueryVariables>(TimeEntryDocument, options);
+      }
+export function useTimeEntryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TimeEntryQuery, TimeEntryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TimeEntryQuery, TimeEntryQueryVariables>(TimeEntryDocument, options);
+        }
 export type TimeEntryQueryHookResult = ReturnType<typeof useTimeEntryQuery>;
-export type TimeEntryLazyQueryHookResult = ReturnType<
-  typeof useTimeEntryLazyQuery
->;
-export type TimeEntryQueryResult = Apollo.QueryResult<
-  TimeEntryQuery,
-  TimeEntryQueryVariables
->;
+export type TimeEntryLazyQueryHookResult = ReturnType<typeof useTimeEntryLazyQuery>;
+export type TimeEntryQueryResult = Apollo.QueryResult<TimeEntryQuery, TimeEntryQueryVariables>;

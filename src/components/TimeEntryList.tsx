@@ -10,10 +10,12 @@ export const TimeEntryList: React.FunctionComponent<Props> = ({
   timeEntries,
 }) => {
   return (
-    <div>
-      {timeEntries.map((timeEntry) => (
-        <TimeEntryView key={timeEntry.id} timeEntry={timeEntry} />
-      ))}
+    <div className="bg-white shadow overflow-hidden sm:rounded-md">
+      <ul role="list" className="divide-y divide-gray-200">
+        {timeEntries.map((timeEntry) => (
+          <TimeEntryView key={timeEntry.id} timeEntry={timeEntry} />
+        ))}
+      </ul>
     </div>
   );
 };

@@ -99,7 +99,7 @@ export type TimeEntryQueryVariables = Exact<{
 }>;
 
 
-export type TimeEntryQuery = { __typename?: 'Query', timeEntry?: { __typename?: 'TimeEntry', id: string, start: any, end: any, project: { __typename?: 'Project', id: string, name: string } } | null };
+export type TimeEntryQuery = { __typename?: 'Query', timeEntry?: { __typename?: 'TimeEntry', id: string, comment: string, start: any, end: any, project: { __typename?: 'Project', id: string, name: string } } | null };
 
 
 export const AllTimeEntriesDocument = gql`
@@ -182,6 +182,7 @@ export const TimeEntryDocument = gql`
     query TimeEntry($id: ID!) {
   timeEntry(id: $id) {
     id
+    comment
     start
     end
     project {

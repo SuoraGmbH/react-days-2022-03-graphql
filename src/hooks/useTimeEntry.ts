@@ -5,6 +5,7 @@ gql`
   query TimeEntry($id: ID!) {
     timeEntry(id: $id) {
       id
+      comment
       start
       end
       project {

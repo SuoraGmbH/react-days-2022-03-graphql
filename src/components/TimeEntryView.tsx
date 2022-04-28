@@ -25,8 +25,10 @@ export const TimeEntryView: React.FunctionComponent<Props> = ({
                   {timeEntry.comment}
                 </p>
                 <p className="mt-2 flex items-center text-sm text-gray-500">
-                  {dayjs(timeEntry.start).format("lll")} -{" "}
-                  {dayjs(timeEntry.end).format("lll")}
+                  <span className="truncate">
+                    {dayjs(timeEntry.start).format("lll")} -{" "}
+                    {dayjs(timeEntry.end).format("lll")}
+                  </span>
                 </p>
               </div>
             </div>

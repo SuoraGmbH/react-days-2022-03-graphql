@@ -1,20 +1,29 @@
-const useTimeEntry = ({ id }: { id: string | undefined }) => {
-  if (!id) {
-    return {
-      timeEntry: null,
-    };
+import { gql } from "@apollo/client";
+import { useTimeEntryQuery } from "../generated/graphql";
+
+gql`
+  query TimeEntry($id: ID!) {
+    timeEntry(id: $id) {
+      id
+      comment
+      start
+      end
+      project {
+        id
+        name
+      }
+    }
   }
+`;
+
+const useTimeEntry = ({ id }: { id: string | undefined }) => {
+  const { data } = useTimeEntryQuery({
+    variables: { id: id ?? "" },
+    skip: !id,
+  });
 
   return {
-    timeEntry: {
-      id: "1",
-      comment: "My first time entry",
-      start: new Date("2022-04-28T10:00:00Z"),
-      end: new Date("2022-04-28T11:00:00Z"),
-      project: {
-        name: "Workshop",
-      },
-    },
+    timeEntry: data?.timeEntry,
   };
 };
 
